@@ -1,0 +1,9 @@
+# IDE- und Build-Ordner
+/bin/
+/target/
+
+# VSCode
+.vscode/
+
+# Maven
+*.iml
