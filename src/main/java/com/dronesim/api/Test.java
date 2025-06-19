@@ -25,5 +25,35 @@ public class Test {
 
         List<DroneDynamics> dyn = parser.parseDynamics(dynJson);
         System.out.println("Loaded Dynamics: "   + dyn.size());
+
+        // extraxt all labels and print
+        System.out.println("lables in dronetypes.json:");
+        parser.extractLabels(typesJson)
+              .forEach(name -> System.out.println(" • " + name));
+
+        System.out.println("\nlables in drones.json:");
+        parser.extractLabels(dronesJson)
+              .forEach(name -> System.out.println(" • " + name));
+
+        System.out.println("\nlables in dynamics.json:");
+        parser.extractLabels(dynJson)
+              .forEach(name -> System.out.println(" • " + name));
+
+        System.out.printf("\nLoaded: %d DroneTypes, %d Drones, %d Dynamics\n",
+        types.size(), drones.size(), dyn.size());
+
+
+        // extract first object form each json
+        System.out.println("first DroneType-Object:");
+            parser.extractFirstObject(typesJson)
+                .forEach((key,val) -> System.out.println(key + " = " + val));
+
+        System.out.println("\nfirst Drone-Objekt:");
+            parser.extractFirstObject(dronesJson)
+                .forEach((key,val) -> System.out.println(key + " = " + val));
+
+        System.out.println("\nfirst Dynamics-Objekt:");
+            parser.extractFirstObject(dynJson)
+            .forEach((key,val) -> System.out.println(key + " = " + val));
     }
 }

@@ -27,14 +27,14 @@ public class ManualJsonParser implements DataProvider {
             item = item.replaceAll("^[\\{\\s]+|[\\}\\s]+$", "");
             Map<String,String> map = toMap(item);   // map key values
             DroneType dt = new DroneType();
-            dt.setId             (Integer.parseInt(map.get("id")));
-            dt.setManufacturer   (map.get("manufacturer"));
-            dt.setTypename       (map.get("typename"));
-            dt.setWeight         (Integer.parseInt(map.get("weight")));
-            dt.setMax_speed      (Integer.parseInt(map.get("max_speed")));
-            dt.setBattery_capacity(Integer.parseInt(map.get("battery_capacity")));
-            dt.setControl_range  (Integer.parseInt(map.get("control_range")));
-            dt.setMax_carriage   (Integer.parseInt(map.get("max_carriage")));
+            dt.setId                (Integer.parseInt(map.get("id")));
+            dt.setManufacturer      (map.get("manufacturer"));
+            dt.setTypename          (map.get("typename"));
+            dt.setWeight            (Integer.parseInt(map.get("weight")));
+            dt.setMax_speed         (Integer.parseInt(map.get("max_speed")));
+            dt.setBattery_capacity  (Integer.parseInt(map.get("battery_capacity")));
+            dt.setControl_range     (Integer.parseInt(map.get("control_range")));
+            dt.setMax_carriage      (Integer.parseInt(map.get("max_carriage")));
             list.add(dt);
         }
         return list;
@@ -51,12 +51,12 @@ public class ManualJsonParser implements DataProvider {
             item = item.replaceAll("^[\\{\\s]+|[\\}\\s]+$", "");
             Map<String,String> map = toMap(item);
             Drone d = new Drone();
-            d.setId            (Integer.parseInt(map.get("id")));
-            d.setDronetype     (map.get("dronetype"));
-            d.setCreated       (map.get("created"));
-            d.setSerialnumber  (map.get("serialnumber"));
+            d.setId             (Integer.parseInt(map.get("id")));
+            d.setDronetype      (map.get("dronetype"));
+            d.setCreated        (map.get("created"));
+            d.setSerialNumber   (map.get("serialnumber"));
             d.setCarriage_weight(Integer.parseInt(map.get("carriage_weight")));
-            d.setCarriage_type (map.get("carriage_type"));
+            d.setCarriage_type  (map.get("carriage_type"));
             list.add(d);
         }
         return list;
@@ -73,9 +73,9 @@ public class ManualJsonParser implements DataProvider {
             item = item.replaceAll("^[\\{\\s]+|[\\}\\s]+$", "");
             Map<String,String> map = toMap(item);
             DroneDynamics dd = new DroneDynamics();
-            dd.setDrone    (map.get("drone"));
-            dd.setTimestamp(map.get("timestamp"));
-            dd.setSpeed   (Double.parseDouble(map.get("speed")));
+            dd.setDrone     (map.get("drone"));
+            dd.setTimestamp (map.get("timestamp"));
+            dd.setSpeed     (Double.parseDouble(map.get("speed")));
             list.add(dd);
         }
         return list;
@@ -93,4 +93,27 @@ public class ManualJsonParser implements DataProvider {
         }
         return map;
     }
+
+
+    public List<String> extractLabels(String json) {
+        String array = extractResultsArray(json);
+        if (array.isEmpty()) return List.of();
+
+        // @return first object form json
+        String first = array.split("\\},\\s*\\{")[0]
+                        .replaceAll("^[\\{\\s]+|[\\}\\s]+$", "");
+        Map<String,String> map = toMap(first);
+        return new ArrayList<>(map.keySet());
+    } 
+
+
+    public Map<String,String> extractFirstObject(String json) {
+    String array = extractResultsArray(json);
+    if (array.isEmpty()) return Map.of();
+    // erstes Objekt bis zur passenden schließenden '}'
+    String firstRaw = array.split("\\},\\s*\\{")[0]
+                           .replaceAll("^[\\{\\s]+|[\\}\\s]+$", "");
+    return toMap(firstRaw);
+}
+    
 }
