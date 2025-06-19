@@ -16,7 +16,7 @@ public class ApiExample {
 
             String typesJson = client.getJson("/api/dronetypes/?limit=100&offset=0");
             Files.writeString(Path.of("dronetypes.json"), typesJson, StandardCharsets.UTF_8);
-            System.out.println("dronestypes.json saved (" + typesJson.length() + " bytes)");
+            System.out.println("dronetypes.json saved (" + typesJson.length() + " bytes)");
 
             String dynamicsJson = client.getJson("/api/dronedynamics/?limit=100&offset=0");
             Files.writeString(Path.of("dynamics.json"), dynamicsJson, StandardCharsets.UTF_8);
