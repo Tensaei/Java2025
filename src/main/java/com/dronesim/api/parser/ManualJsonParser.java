@@ -1,11 +1,11 @@
 package com.dronesim.api.parser;
 
+import com.dronesim.api.DataProvider;
 import com.dronesim.api.model.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.*;
 
-public class ManualJsonParser {
+public class ManualJsonParser implements DataProvider {
+
     // get "results" array from json file
     private static String extractResultsArray(String fullJson) {
         int idx = fullJson.indexOf("\"results\":");
@@ -16,9 +16,9 @@ public class ManualJsonParser {
         return fullJson.substring(start+1, end).trim();
     }
     // parssing dronetype-objects from json file
-    public static List<DroneType> parseDroneTypes(Path jsonFile) throws Exception {
-        String text = Files.readString(jsonFile);   // read
-        String array = extractResultsArray(text);   // extract
+    @Override
+    public List<DroneType> parseDroneTypes(String json) throws Exception {
+        String array = extractResultsArray(json);
         if (array.isEmpty()) return List.of();
 
         List<DroneType> list = new ArrayList<>();
@@ -40,9 +40,9 @@ public class ManualJsonParser {
         return list;
     }
     // parse drone objects from json file
-    public static List<Drone> parseDrones(Path jsonFile) throws Exception {
-        String text  = Files.readString(jsonFile);
-        String array = extractResultsArray(text);
+    @Override
+    public List<Drone> parseDrones(String json) throws Exception {
+        String array = extractResultsArray(json);
         if (array.isEmpty()) return List.of();
 
         List<Drone> list = new ArrayList<>();
@@ -62,9 +62,9 @@ public class ManualJsonParser {
         return list;
     }
     // parse drone dynamics from json file
-    public static List<DroneDynamics> parseDynamics(Path jsonFile) throws Exception {
-        String text = Files.readString(jsonFile);
-        String array = extractResultsArray(text);
+    @Override
+    public List<DroneDynamics> parseDynamics(String json) throws Exception {
+        String array = extractResultsArray(json);
         if (array.isEmpty()) return List.of();
 
         List<DroneDynamics> list = new ArrayList<>();
