@@ -10,15 +10,18 @@ public class ApiExample {
             ApiConfig cfg = new ApiConfig();
             ApiClient client = new ApiClient(cfg);
 
-            String dronesJson = client.getJson("/api/drones/?limit=100&offset=0");
+            // fetch drone list and save to file
+            String dronesJson = client.getJson("/api/drones/?limit=100000&offset=0");
             Files.writeString(Path.of("drones.json"), dronesJson, StandardCharsets.UTF_8);
             System.out.println("drones.json saved (" + dronesJson.length() + " bytes)");
 
-            String typesJson = client.getJson("/api/dronetypes/?limit=100&offset=0");
+            // fetch drone types and save to file
+            String typesJson = client.getJson("/api/dronetypes/?limit=100000&offset=0");
             Files.writeString(Path.of("dronetypes.json"), typesJson, StandardCharsets.UTF_8);
             System.out.println("dronetypes.json saved (" + typesJson.length() + " bytes)");
 
-            String dynamicsJson = client.getJson("/api/dronedynamics/?limit=100&offset=0");
+            // fetch dynamics data and save to file
+            String dynamicsJson = client.getJson("/api/dronedynamics/?limit=100000&offset=0");
             Files.writeString(Path.of("dynamics.json"), dynamicsJson, StandardCharsets.UTF_8);
             System.out.println("dynamics.json saved (" + dynamicsJson.length() + " bytes)");
             

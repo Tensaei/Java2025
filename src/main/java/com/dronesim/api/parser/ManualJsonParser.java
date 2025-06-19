@@ -6,7 +6,7 @@ import java.nio.file.Path;
 import java.util.*;
 
 public class ManualJsonParser {
-
+    // get "results" array from json file
     private static String extractResultsArray(String fullJson) {
         int idx = fullJson.indexOf("\"results\":");
         if (idx < 0) throw new RuntimeException("Kein results-Feld gefunden");
@@ -15,17 +15,17 @@ public class ManualJsonParser {
         if (start < 0 || end < 0) throw new RuntimeException("Ungültiges JSON-Format");
         return fullJson.substring(start+1, end).trim();
     }
-
+    // parssing dronetype-objects from json file
     public static List<DroneType> parseDroneTypes(Path jsonFile) throws Exception {
-        String text = Files.readString(jsonFile);
-        String array = extractResultsArray(text);
+        String text = Files.readString(jsonFile);   // read
+        String array = extractResultsArray(text);   // extract
         if (array.isEmpty()) return List.of();
 
         List<DroneType> list = new ArrayList<>();
-        String[] items = array.split("\\},\\s*\\{");
+        String[] items = array.split("\\},\\s*\\{");    // split
         for (String item : items) {
             item = item.replaceAll("^[\\{\\s]+|[\\}\\s]+$", "");
-            Map<String,String> map = toMap(item);
+            Map<String,String> map = toMap(item);   // map key values
             DroneType dt = new DroneType();
             dt.setId             (Integer.parseInt(map.get("id")));
             dt.setManufacturer   (map.get("manufacturer"));
@@ -39,7 +39,7 @@ public class ManualJsonParser {
         }
         return list;
     }
-
+    // parse drone objects from json file
     public static List<Drone> parseDrones(Path jsonFile) throws Exception {
         String text  = Files.readString(jsonFile);
         String array = extractResultsArray(text);
@@ -61,7 +61,7 @@ public class ManualJsonParser {
         }
         return list;
     }
-
+    // parse drone dynamics from json file
     public static List<DroneDynamics> parseDynamics(Path jsonFile) throws Exception {
         String text = Files.readString(jsonFile);
         String array = extractResultsArray(text);
@@ -81,6 +81,7 @@ public class ManualJsonParser {
         return list;
     }
 
+    // transform json object string into a map
     private static Map<String,String> toMap(String item) {
         Map<String,String> map = new HashMap<>();
         String[] pairs = item.split(",\\s*");
