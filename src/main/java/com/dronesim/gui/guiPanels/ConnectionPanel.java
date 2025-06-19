@@ -26,9 +26,10 @@ public class ConnectionPanel extends JPanel {
     private final JButton connectBtn;
 
     private static final String CONFIG_FILE = "config.properties";
+    private final Runnable onConnectSuccess;
 
-    public ConnectionPanel() {
-        
+    public ConnectionPanel(Runnable onConnectSuccess) {
+        this.onConnectSuccess = onConnectSuccess;
         setLayout(new GridBagLayout());
         
         GridBagConstraints gbc = new GridBagConstraints();
