@@ -3,9 +3,15 @@ package com.dronesim.gui.guiPanels;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.Properties;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.awt.event.ActionEvent;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -18,6 +24,8 @@ public class ConnectionPanel extends JPanel {
     private final JTextField urlTxt;
 
     private final JButton connectBtn;
+
+    private static final String CONFIG_FILE = "config.properties";
 
     public ConnectionPanel() {
         
@@ -33,13 +41,14 @@ public class ConnectionPanel extends JPanel {
         urlTxt = new JTextField(20);
         connectBtn = new JButton("Connect");
 
+        loadProperties();
+
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.EAST;
         add(tokenLabel, gbc);
         
         gbc.gridx = 1;
-        gbc.gridy = 0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         add(tokenTxt, gbc);
 
@@ -49,7 +58,6 @@ public class ConnectionPanel extends JPanel {
         add(urlLabel, gbc);
 
         gbc.gridx = 1;
-        gbc.gridy = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         add(urlTxt, gbc);
 
@@ -59,7 +67,52 @@ public class ConnectionPanel extends JPanel {
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.fill = GridBagConstraints.NONE;
         add(connectBtn, gbc);
+    
+        connectBtn.addActionListener((ActionEvent e) -> {
+            
+                String url = getUrl();
+                String token = getToken();
+
+                if(testConnection(url, token)) {
+                    JOptionPane.showMessageDialog(ConnectionPanel.this, 
+                    "Verbindung erfolgreich!", 
+                    "Erfolg", 
+                    JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(ConnectionPanel.this, 
+                    "Verbindung fehlgeschlagen. Prüfe URL oder Token.", 
+                    "Fehler", 
+                    JOptionPane.ERROR_MESSAGE);
+                }
+            
+        });
+    
+    }
+
+    private void loadProperties() {
+        Properties props = new Properties();
+        try (FileInputStream fis = new FileInputStream(CONFIG_FILE)){
+            props.load(fis);
+            urlTxt.setText(props.getProperty("api.baseUrl", ""));
+            tokenTxt.setText(props.getProperty("api.token", ""));
+        } catch (IOException e) {
+            System.out.println("Keine bestehende config.properties gefunden - wird erstellt.");
         }
+    }
+
+    private void saveProperties(String url, String token) {
+        Properties props = new Properties();
+        props.setProperty("api.baseUrl", url);
+        props.setProperty("api.token", token);
+        try (FileOutputStream fos = new FileOutputStream(CONFIG_FILE)) {
+            props.store(fos, "API Configuration");
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, 
+            "Fehler beim Speichern der config.properties", 
+            "Fehler", 
+            JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
     public String getToken(){
         return tokenTxt.getText();
