@@ -1,7 +1,8 @@
 package com.dronesim.api;
 
 import com.dronesim.api.model.*;
-import com.dronesim.api.service.ManualJsonParser;
+import com.dronesim.api.parser.ManualJsonParser;
+
 import java.nio.file.Path;
 import java.util.List;
 

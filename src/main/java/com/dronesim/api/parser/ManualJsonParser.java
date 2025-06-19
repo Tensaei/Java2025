@@ -1,4 +1,4 @@
-package com.dronesim.api.service;
+package com.dronesim.api.parser;
 
 import com.dronesim.api.model.*;
 import java.nio.file.Files;
