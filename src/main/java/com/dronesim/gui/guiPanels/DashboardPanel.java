@@ -5,6 +5,7 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.Dimension;
@@ -14,9 +15,9 @@ import java.util.List;
 import com.dronesim.api.model.*;
 
 public class DashboardPanel extends JPanel {
-    private final JTextField searchField;
-    private final JPanel droneGridPanel;
-    private final JPanel chartPanel;
+    private JTextField searchField;
+    private JPanel droneGridPanel;
+    private JPanel chartPanel;
 
     public DashboardPanel() {
         setLayout(new BorderLayout(15,15));
@@ -53,11 +54,11 @@ public class DashboardPanel extends JPanel {
 
     }
 
-    public void updateDashboard(List<Drone> drones) {
+    public void updateDashboard(List<DroneOverview> drones) {
         droneGridPanel.removeAll();
 
-        for (Drone drone : drones) {
-            JPanel card = createDroneCard(drone);
+        for (DroneOverview d : drones) {
+            JPanel card = createDroneCard(d);
             droneGridPanel.add(card);
         }
 
@@ -65,7 +66,12 @@ public class DashboardPanel extends JPanel {
         droneGridPanel.repaint();
     }
 
-    private JPanel createDroneCard(Drone drone) {
+    private JPanel createDroneCard(DroneOverview d) {
+        Drone base = d.getDrone();
+        DroneType type = d.getType();
+        DroneDynamics dyn = d.getDynamics();
+
+
         JPanel card = new JPanel();
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
         card.setBorder(BorderFactory.createCompoundBorder(
@@ -75,11 +81,11 @@ public class DashboardPanel extends JPanel {
 
         card.add(new JLabel("Model: " + drone.getModel()));
         card.add(new JLabel("Status: " + drone.getStatus()));
-        card.add(new JLabel("Battery: " + drone.getBattery() + "%"));
-        card.add(new JLabel("Speed: " + drone.getSpeed() + " km/h"));
-        card.add(new JLabel("Top Speed: " + drone.getTopSpeed() + " km/h"));
-        card.add(new JLabel("Type: " + drone.getType()));
-        card.add(new JLabel("Serial: " + drone.getSerial()));
+        card.add(new JLabel("Battery: " + type.getBattery_capacity() + "%"));
+        card.add(new JLabel("Speed: " + dyn.getSpeed() + " km/h"));
+        card.add(new JLabel("Top Speed: " + type.getMax_speed() + " km/h"));
+        card.add(new JLabel("Type: " + base.getCarriage_type()));
+        card.add(new JLabel("Serial: " + base.getSerialNumber()));
 
         return card;
 
