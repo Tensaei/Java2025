@@ -15,6 +15,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import java.util.List;
+
+import com.dronesim.api.ApiClient;
+import com.dronesim.api.ApiConfig;
+
+
 public class ConnectionPanel extends JPanel {
 
     private final JLabel tokenLabel;
@@ -33,7 +39,6 @@ public class ConnectionPanel extends JPanel {
         setLayout(new GridBagLayout());
         
         GridBagConstraints gbc = new GridBagConstraints();
-        
         gbc.insets = new Insets(10,10,10,10);
 
         tokenLabel = new JLabel("Token:");
@@ -71,16 +76,19 @@ public class ConnectionPanel extends JPanel {
     
         connectBtn.addActionListener((ActionEvent e) -> {
             
-                String url = getUrl();
-                String token = getToken();
+                String url = getUrl().trim();
+                String token = getToken().trim();
 
-                if(testConnection(url, token)) {
-                    JOptionPane.showMessageDialog(ConnectionPanel.this, 
+                saveProperties(url, token);
+
+                if(testConnection()) {
+                    JOptionPane.showMessageDialog(this, 
                     "Verbindung erfolgreich!", 
                     "Erfolg", 
                     JOptionPane.INFORMATION_MESSAGE);
+                    onConnectSuccess.run();
                 } else {
-                    JOptionPane.showMessageDialog(ConnectionPanel.this, 
+                    JOptionPane.showMessageDialog(this, 
                     "Verbindung fehlgeschlagen. Prüfe URL oder Token.", 
                     "Fehler", 
                     JOptionPane.ERROR_MESSAGE);
@@ -88,6 +96,21 @@ public class ConnectionPanel extends JPanel {
             
         });
     
+    }
+
+    private boolean testConnection() {
+        try {
+            String url = getUrl().trim();
+            String token = getToken().trim();
+
+            ApiConfig cfg = new ApiConfig(url, token);
+            ApiClient api = new ApiClient(cfg);
+            List<Drone> page = api.getDronesPage(1);
+            return page != null && !page.isEmpty();
+        } catch (Exception e) {
+            System.err.println("API Fehler: " + e.getMessage());
+            return false;
+        }
     }
 
     private void loadProperties() {

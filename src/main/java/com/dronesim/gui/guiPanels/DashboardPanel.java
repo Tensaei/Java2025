@@ -1,18 +1,22 @@
 package com.dronesim.gui.guiPanels;
 
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.awt.Dimension;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.util.List;
 
-import com.dronesim.api.model.*;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+
+import com.dronesim.api.model.Drone;
+import com.dronesim.api.model.DroneDynamics;
+import com.dronesim.api.model.DroneOverview;
+import com.dronesim.api.model.DroneType;
 
 public class DashboardPanel extends JPanel {
     private JTextField searchField;
@@ -79,8 +83,8 @@ public class DashboardPanel extends JPanel {
             BorderFactory.createEmptyBorder(10, 10, 10, 10) 
         ));
 
-        card.add(new JLabel("Model: " + drone.getModel()));
-        card.add(new JLabel("Status: " + drone.getStatus()));
+        card.add(new JLabel("Model: " + base.getDronetype()));
+        //card.add(new JLabel("Status: " + drone.getStatus()));
         card.add(new JLabel("Battery: " + type.getBattery_capacity() + "%"));
         card.add(new JLabel("Speed: " + dyn.getSpeed() + " km/h"));
         card.add(new JLabel("Top Speed: " + type.getMax_speed() + " km/h"));
