@@ -1,5 +1,7 @@
 package com.dronesim.api.model;
 
+import java.sql.Date;
+
 /**
  * Represents the real-time dynamics data of an individual drone in the
  * simulation system. Holds data such as speed, orientation (roll, pitch, yaw),
@@ -7,11 +9,11 @@ package com.dronesim.api.model;
  */
 public class DroneDynamics {
 
-    // Reference to the associated drone 
-    private String drone;
+    // Reference to the associated drone maybe auch nur die id
+    private Drone drone;
 
     // Timestamp of the recorded data
-    private String timestamp;
+    private Date timestamp;
 
     // Current speed of the drone in m/s
     private double speed;
@@ -35,7 +37,7 @@ public class DroneDynamics {
     private String status;
 
     // Full constructor – used when creating a dynamics record with all data
-    public DroneDynamics(String drone, String timestamp, double speed, double alignRoll,
+    public DroneDynamics(Drone drone, Date timestamp, double speed, double alignRoll,
             double alignPitch, double alignYaw, double latitude, double longitude,
             double batteryStatus, String lastScene, String status) {
         this.drone = drone;
@@ -56,19 +58,19 @@ public class DroneDynamics {
     }
 
     // Getter and setter methods for each attribute
-    public String getDrone() {
+    public Drone getDrone() {
         return drone;
     }
 
-    public void setDrone(String drone) {
+    public void setDrone(Drone drone) {
         this.drone = drone;
     }
 
-    public String getTimestamp() {
+    public Date getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(String timestamp) {
+    public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
 

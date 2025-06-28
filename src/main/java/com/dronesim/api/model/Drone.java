@@ -1,5 +1,7 @@
 package com.dronesim.api.model;
 
+import java.sql.Date;
+
 /**
  * Represents an individual drone instance in the drone simulation system. Holds
  * data such as ID, serial number, model, cargo weight, status, and last seen
@@ -11,10 +13,12 @@ public class Drone {
     private int id;
 
     // The type of drone
-    private String dronetype;
+    private DroneType dronetype;
+
+    private DroneDynamics droneDynamics;
 
     // Creation date of the drone
-    private String created;
+    private Date created;
 
     // Manufacturer-assigned serial number
     private String serialNumber;
@@ -26,9 +30,8 @@ public class Drone {
     private String carriage_type;
 
     // Full constructor – used when creating a drone object with all data
-    public Drone(int id, String dronetype, String created, String serialNumber, int carriage_weight, String carriage_type) {
+    public Drone(int id, String dronetype, Date created, String serialNumber, int carriage_weight, String carriage_type) {
         this.id = id;
-        this.dronetype = dronetype;
         this.created = created;
         this.serialNumber = serialNumber;
         this.carriage_weight = carriage_weight;
@@ -41,6 +44,10 @@ public class Drone {
 
     }
 
+    //Fetch DroneType
+
+    //Fetch DroneDynamics
+
     // Getter and setter methods for each attribute
     public int getId() {
         return id;
@@ -50,19 +57,19 @@ public class Drone {
         this.id = id;
     }
 
-    public String getDronetype() {
+    public DroneType getDronetype() {
         return dronetype;
     }
 
-    public void setDronetype(String dronetype) {
+    public void setDronetype(DroneType dronetype) {
         this.dronetype = dronetype;
     }
 
-    public String getCreated() {
+    public Date getCreated() {
         return created;
     }
 
-    public void setCreated(String created) {
+    public void setCreated(Date created) {
         this.created = created;
     }
 
@@ -95,7 +102,7 @@ public class Drone {
         return "Drone{"
                 + "id=" + id
                 + ", dronetype='" + dronetype + '\''
-                + ", created='" + created + '\''
+                + ", created='" + created.toString() + '\''
                 + ", serialNumber='" + serialNumber + '\''
                 + ", carriage_weight=" + carriage_weight
                 + ", carriage_type='" + carriage_type + '\''

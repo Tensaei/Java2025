@@ -5,6 +5,8 @@ import java.util.List;
 
 /*
  * Converts raw JSON into model objects
+ * 
+ * Es braucht keine Liste an FroneTypes und DroneDynamics
  */
 
 public interface DataProvider {

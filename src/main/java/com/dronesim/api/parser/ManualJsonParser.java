@@ -11,7 +11,14 @@ import com.dronesim.api.model.DroneDynamics;
 import com.dronesim.api.model.DroneType;
 
 public class ManualJsonParser implements DataProvider {
-
+    /*Muss komplett ueber arbeitet werden
+     * 
+     * Erst JSON zu Drone
+     * dann aufruf von Drone gib mir Type mit der ID
+     * Parse JSON DronenTyp zu DronenTyp
+     * dann aufruf von Drone hole Dynamics
+     * Parse JSON Dynamics zu Drone
+    */
     // get "results" array from json file
     private static String extractResultsArray(String fullJson) {
         int idx = fullJson.indexOf("\"results\":");

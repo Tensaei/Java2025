@@ -1,5 +1,7 @@
 package com.dronesim.api.model;
 
+
+//Unnotig muss komplett ueberarbeitet werden
 public class DroneOverview {
    private final Drone drone;
    private final DroneType type;
